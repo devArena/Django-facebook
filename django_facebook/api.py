@@ -635,7 +635,11 @@ class FacebookUserConverter(object):
                 name = f.get('name')
                 gender = None
                 if f.get('sex'):
-                    gender = gender_map[f.get('sex')]
+                    try:
+                        gender = gender_map[f.get('sex')]
+                    except KeyError:
+                        # we could get results like 'male (hidden)'
+                        pass
                 default_dict[str(f['id'])] = dict(name=name, gender=gender)
             id_field = 'facebook_id'
 
